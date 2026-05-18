@@ -1,0 +1,67 @@
+@import "tailwindcss";
+/* Inter Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@theme {
+    /* Fonts */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    /* Primary Brand Colors */
+    --color-primary: #7C5CFF;
+    --color-primary-hover: #6B4BFF;
+    --color-primary-start: #8A6BFF;
+    --color-primary-end: #5B3FFF;
+    /* Accent Colors */
+    --color-accent-blue: #4DA3FF;
+    --color-accent-cyan: #35E0FF;
+    --color-accent-pink: #FF4D9D;
+    --color-accent-glow: #A78BFA;
+    /* Background Colors */
+    --color-bg-main: #0B0B0F;
+    --color-bg-secondary: #111118;
+    --color-bg-card: #151521;
+    --color-bg-glass: rgba(255, 255, 255, 0.03);
+    /* Text Colors */
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #C9C9D1;
+    --color-text-muted: #8B8B9B;
+    --color-text-disabled: #6B6B7B;
+    /* Border Colors */
+    --color-border-default: #232334;
+    --color-border-soft: rgba(255, 255, 255, 0.08);
+    --color-border-focus: #7C5CFF;
+    /* Border Radius */
+    --radius-btn: 12px;
+    --radius-card: 16px;
+    --radius-input: 10px;
+    /* Shadows */
+    --shadow-glow: 0 10px 40px rgba(124, 92, 255, 0.25);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+    /* Gradients */
+    --background-image-gradient-primary: linear-gradient(135deg, #8A6BFF 0%, #5B3FFF 100%);
+    --background-image-gradient-btn: linear-gradient(180deg, #8A6BFF 0%, #6B4BFF 100%);
+    --background-image-gradient-hero: radial-gradient(circle, rgba(124, 92, 255, 0.35) 0%, transparent 70%);
+}
+/* Default page body settings based on design */
+@layer base {
+    body {
+        background-color: #fff !important;
+        color: var(--color-text-primary);
+        font-family: var(--font-sans);
+    }
+}
+
+/* Dropdown animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
+}
+

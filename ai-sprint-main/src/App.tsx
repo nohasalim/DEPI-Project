@@ -7,7 +7,8 @@ import MainLayout from "./components/layout/MainLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "./components/modal/Modal";
-import CanbanBoard from "./pages/CanbanBoard";
+import Tasks from "./pages/Tasks";
+// import CanbanBoard from "./pages/CanbanBoard";
 
 function App() {
   return (
@@ -21,7 +22,8 @@ function App() {
         {/* Protected routes wrapped in MainLayout (Navbar + auth guard) */}
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/projectDetails/:id" element={<CanbanBoard />} />
+          <Route path="/tasks/:projectId" element={<Tasks />} />
+          {/* <Route path="/projectDetails/:id" element={<CanbanBoard />} /> */}
         </Route>
 
         {/* Catch-all: redirect to dashboard (MainLayout will bounce to /login if unauthenticated) */}

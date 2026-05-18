@@ -38,7 +38,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
   return (
     <div
-      onClick={() => navigate(`/projectDetails/${project._id}`)}
+      onClick={() => navigate(`/tasks/${project._id}`)}
 
       className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
       {/* Icon and Status */}

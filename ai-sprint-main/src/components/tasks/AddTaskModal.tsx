@@ -155,7 +155,8 @@ export default function AddTaskModal({ projectData }: AddTaskModalProps) {
               label="Add Task"
               icon={<FaPlus />}
               disabled={isAdding}
-              onClick={handleClose}
+              onCancel={handleClose}
+              onConfirm={handleSubmit(onSubmit)}
             />
           </Form>
         )}

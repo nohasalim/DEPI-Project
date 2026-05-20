@@ -26,7 +26,7 @@ router.get('/projects', ProjectController.GetAllProjects);
 
 // Get project details by ID (with ID validation middleware)
 router.get(
-    '/projects/:projectId',
+    '/projectdetails/:projectId',
     validateObjectId('projectId'),
     ProjectController.GetProjectDetails
 );

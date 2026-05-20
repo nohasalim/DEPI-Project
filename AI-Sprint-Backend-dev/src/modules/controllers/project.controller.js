@@ -16,7 +16,10 @@ const CreateProjectWithGeneratedTasks = async (req, res) => {
             });
         }
 
-        const generatedTasks = await generateTask(projectName, description);
+        const generatedTasks = await generateTask(
+            projectName,
+            description
+        );
 
         const project = await Project.create({
             name: projectName,
@@ -26,7 +29,8 @@ const CreateProjectWithGeneratedTasks = async (req, res) => {
 
         let createdTasks = [];
 
-        if (generatedTasks && generatedTasks.success) {
+        if (generatedTasks?.tasks?.length) {
+
             const tasksToInsert = generatedTasks.tasks.map(task => ({
                 projectId: project._id,
                 title: task.title,
@@ -43,7 +47,9 @@ const CreateProjectWithGeneratedTasks = async (req, res) => {
             status: httpStatusText.SUCCESS,
             data: {
                 id: project._id,
-                ...generatedTasks
+                projectName: project.name,
+                description: project.description,
+                tasks: createdTasks
             }
         });
 
@@ -80,6 +86,40 @@ const GetAllProjects = async (req, res) => {
     }
 };
 
+// const GetProjectDetails = async (req, res) => {
+//     const { projectId } = req.params;
+//     const userId = req.user.id;
+
+//     try {
+//         const project = await Project.findOne({
+//             _id: projectId,
+//             createdBy: userId
+//         });
+
+//         if (!project) {
+//             return res.status(404).json({
+//                 status: httpStatusText.FAIL,
+//                 message: "Project not found"
+//             });
+//         }
+
+//         const tasks = await Task.find({ projectId });
+
+//         return res.status(200).json({
+//             status: httpStatusText.SUCCESS,
+//             data: {
+//                 project,
+//                 tasks
+//             }
+//         });
+//   catch (error) {
+//     return res.status(500).json({
+//         status: httpStatusText.ERROR,
+//         message: error?.message || "Internal server error"
+//     });
+// }
+// };
+
 const GetProjectDetails = async (req, res) => {
     const { projectId } = req.params;
     const userId = req.user.id;
@@ -97,7 +137,9 @@ const GetProjectDetails = async (req, res) => {
             });
         }
 
-        const tasks = await Task.find({ projectId });
+        const tasks = await Task.find({
+            projectId: project._id
+        });
 
         return res.status(200).json({
             status: httpStatusText.SUCCESS,
@@ -114,6 +156,7 @@ const GetProjectDetails = async (req, res) => {
         });
     }
 };
+
 
 const UpdateProject = async (req, res) => {
     const { id } = req.params;

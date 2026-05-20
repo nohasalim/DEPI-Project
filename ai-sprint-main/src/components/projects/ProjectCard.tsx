@@ -40,7 +40,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
     <div
       onClick={() => navigate(`/tasks/${project._id}`)}
 
-      className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+      className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
       {/* Icon and Status */}
       <div className="flex items-start justify-between mb-4">
         <div
@@ -93,6 +93,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             </div>
             <div className="flex items-center gap-4">
               <button
+                className="cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   dispatch(
@@ -105,20 +106,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                 }>
                 <RiDeleteBin6Line />
               </button>
-              <button onClick={(e) => {
-                e.stopPropagation();
+              <button
+                className="cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
 
-                dispatch(
-                  openModal({
-                    name: "editProject",
-                    data: {
-                      _id: project._id,
-                      name: project.name,
-                      description: project.description,
-                    },
-                  }),
-                )
-              }}>
+                  dispatch(
+                    openModal({
+                      name: "editProject",
+                      data: {
+                        _id: project._id,
+                        name: project.name,
+                        description: project.description,
+                      },
+                    }),
+                  )
+                }}>
                 <FaRegEdit />
               </button>
             </div>

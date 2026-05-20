@@ -48,9 +48,9 @@
 export type TaskStatus = "Backlog" | "In Progress" | "Review" | "Done";
 
 export interface Task {
-  id: number;
+  _id: number;
   title: string;
-  details: string;
+  description: string;
   status: TaskStatus;
   assignedTo?: string;
   createdAt: string;

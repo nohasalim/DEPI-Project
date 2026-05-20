@@ -23,10 +23,10 @@ const taskSchema = new mongoose.Schema({
         default: "medium"
     },
 
-    state: {
+    status: {
         type: String,
-        enum: ["backlog", "in_progress", "review", "completed"],
-        default: "backlog"
+        enum: ["Backlog", "In Progress", "Review", "Done"],
+        default: "Backlog"
     },
     phase: {
         type: String,

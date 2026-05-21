@@ -11,6 +11,13 @@ interface TaskCardProps {
     task: TaskDetails;
 
 }
+/** Format a date like "Apr 02" */
+const formatDate = (raw: string | Date | undefined): string => {
+    if (!raw) return "—";
+    const d = new Date(raw);
+    if (isNaN(d.getTime())) return "—";
+    return d.toLocaleDateString("en-US", { month: "short", day: "2-digit" });
+};
 
 const TaskCard: React.FC<TaskCardProps> = ({
     mainProjectId,
@@ -41,7 +48,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
                         <div className="flex items-center gap-1">
                             <MdOutlineDateRange />
-                            <span>{task.createdAt}</span>
+                            <span>{formatDate(task.createdAt)}</span>
                         </div>
                         <div className="flex items-center gap-4">
                             <button

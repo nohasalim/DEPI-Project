@@ -87,9 +87,10 @@ export default function Modal() {
       break;
     case "inviteTeamMember":
       renderComponent =
-        data && "projectId" in data ? (
+        data && "projectId" in data && "projectName" in data ? (
           <InvitationModal
             projectId={data.projectId}
+            projectName={data.projectName}
           />
         ) : null;
       break;

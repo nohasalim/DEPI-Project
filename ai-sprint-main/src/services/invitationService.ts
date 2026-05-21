@@ -9,9 +9,11 @@ export const invite = async (
   inviteData: FormInvitationDetails
 ): Promise<InviteResponse> => {
   const response = await api.post(`/api/v1/teamMembers/${projectId}/invite`, inviteData);
+  console.log("Invite response:", response.data);
   return response.data;
 };
 export const getTeamMembers = async (projectId: string) => {
   const response = await api.get(`/api/v1/teamMembers/${projectId}`);
+  console.log("Team members response:", response.data);
   return response.data;
 };

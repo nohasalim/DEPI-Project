@@ -12,7 +12,7 @@ export type ModalDataMap = {
     name: string;
   };
 
-  inviteTeamMember: { projectId: string };
+  inviteTeamMember: { projectId: string, projectName: string };
 };
 
 export type OpenModalPayload = {

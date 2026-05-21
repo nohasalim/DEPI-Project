@@ -10,7 +10,7 @@ export interface Project {
   progress: number;
   icon: string;
   iconBgColor: string;
-  teamMembers: string[];
+  team: string[];
   taskCount: number;
   createdAt: string;
   updatedAt: string;
@@ -35,7 +35,7 @@ export interface ProjectDetails {
   createdAt?: string;
   updatedAt?: string;
   tasks?: TaskDetails[];
-  teamMembers?: string[];
+  team?: string[];
 }
 
 // Updated

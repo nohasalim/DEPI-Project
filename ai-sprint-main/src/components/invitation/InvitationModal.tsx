@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { z } from "zod";
-import { inviteTeamMember } from "../../features/invitation/invitationActions";
+import { getTeamMembers, inviteTeamMember } from "../../features/invitation/invitationActions";
 import { closeModal } from "../../features/modal/modalSlice";
 import { resetInvitationState } from "../../features/invitation/invitationSlice";
 import Form from "../common/forms/Form";
@@ -23,6 +23,7 @@ const invitationSchema = z.object({
 
 type InvitationFormData = z.infer<typeof invitationSchema>;
 interface InvitationModalProps {
+  projectName?: string;
   projectId: string;
   data?: {
     name: string;
@@ -31,6 +32,7 @@ interface InvitationModalProps {
 }
 
 const InvitationModal: React.FC<InvitationModalProps> = ({
+  projectName,
   projectId,
 }) => {
   const {
@@ -51,12 +53,20 @@ const InvitationModal: React.FC<InvitationModalProps> = ({
   } = useAppSelector((state) => state.invite);
 
   const onSubmit = async (data: InvitationFormData) => {
-    await dispatch(
-      inviteTeamMember({
-        projectId,
-        inviteData: data,
-      })
-    );
+    try {
+      await dispatch(
+        inviteTeamMember({
+          projectId,
+          inviteData: data,
+        })
+      ).unwrap();
+
+      // 🔥 refresh team after invite success
+      dispatch(getTeamMembers(projectId));
+
+    } catch (error) {
+      console.log("Invite failed:", error);
+    }
   };
 
   const handleClose = () => {
@@ -87,7 +97,7 @@ const InvitationModal: React.FC<InvitationModalProps> = ({
       <ModalHeader
         title="invite team member"
         icon={<IoPersonAddOutline />}
-        subtitle={`Send an invitation to join the Architectural Studio workspace`}
+        subtitle={`Send an invitation to join the ${projectName || "Architectural Studio"} workspace`}
       />
       {/* Modal Content */}
       <div className="w-full p-4 bg-white flex items-center justify-center">

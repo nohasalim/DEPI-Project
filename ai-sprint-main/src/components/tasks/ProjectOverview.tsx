@@ -1,13 +1,14 @@
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { openModal } from "../../features/modal/modalSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { getTeamMembers } from "../../services/invitationService";
 
 interface MainProject {
     _id: string;
     name: string;
     description: string;
-    team: string[];
+    team: any[];
 }
 
 interface Progress {
@@ -21,19 +22,44 @@ interface ProjectOverviewProps {
     progress: Progress;
     getInitials: (name: string) => string;
 }
+interface TeamMember {
+    _id: string;
+    name?: string;
+    username?: string;
+    email: string;
+    avatar?: string;
+}
 
 const ProjectOverview: React.FC<ProjectOverviewProps> = ({
     mainProject,
     progress,
     getInitials,
 }) => {
+    const [members, setMembers] = useState<TeamMember[]>([]);
     const dispatch = useAppDispatch();
+    useEffect(() => {
+        const fetchMembers = async () => {
+            try {
+                const response = await getTeamMembers(mainProject._id);
+
+                setMembers(response.data.members || []);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchMembers();
+    }, [mainProject._id]);
+
+    console.log("ProjectOverview - Members:", members);
+
 
     const handleInviteMember = () => {
         dispatch(
             openModal({
                 name: "inviteTeamMember",
                 data: {
+                    projectName: mainProject.name,
                     projectId: mainProject._id,
                 },
             })
@@ -102,13 +128,13 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({
 
                     {/* Members */}
                     <div className="flex -space-x-2">
-                        {mainProject.team?.map((member, index) => (
+                        {members.map((member, index) => (
                             <span
                                 key={`${member}-${index}`}
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-violet-500 text-[11px] font-semibold text-white"
-                                title={member}
+                                title={member.name || member.email}
                             >
-                                {getInitials(member)}
+                                {getInitials(member.name || member.email)}
                             </span>
                         ))}
                     </div>

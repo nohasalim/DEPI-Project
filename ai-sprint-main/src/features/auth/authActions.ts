@@ -70,6 +70,7 @@ export const fetchCurrentUser = createAsyncThunk(
         },
       );
       const user = response.data?.data;
+      console.log("Fetched user data:", user.email);
       if (user) {
         localStorage.setItem("token", token);
         return { user, token };

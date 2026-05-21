@@ -20,7 +20,7 @@ passport.use(
 
                 if (!user) {
                     user = await User.create({
-                        name: profile.displayName,
+                        username: profile.displayName,
                         email,
                         provider: "google",
                         providerId: profile.id,
@@ -41,16 +41,24 @@ passport.use(
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
             callbackURL: process.env.GITHUB_CALLBACK,
+            scope: ["user:email"],
+
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
                 const email = profile.emails?.[0]?.value;
+                if (!email) {
+                    return done(
+                        new Error("GitHub account has no public email"),
+                        null
+                    );
+                }
 
                 let user = await User.findOne({ email });
 
                 if (!user) {
                     user = await User.create({
-                        name: profile.username,
+                        username: profile.username,
                         email,
                         provider: "github",
                         providerId: profile.id,

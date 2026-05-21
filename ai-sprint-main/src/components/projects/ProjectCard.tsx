@@ -85,11 +85,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               <span>👥</span>
-              <span>{project.teamMembers}</span>
+              <span>{project?.teamMembers?.length}</span>
             </div>
             <div className="flex items-center gap-1">
               <MdOutlineDateRange />
-              <span>{project.date}</span>
+              <span>{project.createdAt}</span>
             </div>
             <div className="flex items-center gap-4">
               <button

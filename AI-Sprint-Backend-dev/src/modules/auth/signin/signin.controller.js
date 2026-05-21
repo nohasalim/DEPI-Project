@@ -33,7 +33,7 @@ const SignIn = async (req, res) => {
         return res.status(200).json({
             status: httpStatusText.SUCCESS,
             token: token,
-            data: userData
+            user: userData
         });
 
     } catch (error) {
@@ -41,7 +41,7 @@ const SignIn = async (req, res) => {
         return res.status(500).json({
             status: httpStatusText.ERROR,
             message: error.message,
-            data: {}
+            user: {}
         });
     }
 };

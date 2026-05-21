@@ -10,3 +10,9 @@ export const login = async (credentials: LoginCredentials): Promise<AuthResponse
     const response = await api.post('/auth/signin', credentials);
     return response.data;
 };
+export const fetchCurrentUser = async (token: string): Promise<AuthResponse> => {
+    const response = await api.get('/auth/user', {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};

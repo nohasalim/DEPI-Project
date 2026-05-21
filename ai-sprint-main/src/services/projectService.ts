@@ -15,6 +15,7 @@ interface BackendProject {
   description: string;
   status: string;
   createdAt: string;
+  team: string[];
 }
 
 const mapStatus = (status: string): ProjectStatus => {
@@ -43,9 +44,9 @@ export const projectService = {
       progress: 0,
       icon: "📊",
       iconBgColor: "bg-purple-500",
-      teamMembers: 0,
+      team: project.team,
       taskCount: 0,
-      date: new Date(project.createdAt)
+      createdAt: new Date(project.createdAt)
         .toLocaleDateString("en-US", {
           year: "2-digit",
           month: "short",
@@ -54,35 +55,6 @@ export const projectService = {
         .replace(/\//g, " "),
     }));
   },
-
-  // Create new project
-  // async createProject(project: Omit<Project, "id" | "date">): Promise<Project> {
-  //   const response = await api.post<{ status: string; data: BackendProject }>(
-  //     "/api/v1/projects",
-  //     {
-  //       projectName: project.name,
-  //       description: project.description,
-  //     },
-  //   );
-  //   return {
-  //     _id: response.data.data._id,
-  //     name: project.name,
-  //     description: project.description,
-  //     status: project.status,
-  //     progress: project.progress,
-  //     icon: project.icon,
-  //     iconBgColor: project.iconBgColor,
-  //     teamMembers: project.teamMembers,
-  //     taskCount: project.taskCount,
-  //     date: new Date()
-  //       .toLocaleDateString("en-US", {
-  //         year: "2-digit",
-  //         month: "short",
-  //         day: "numeric",
-  //       })
-  //       .replace(/\//g, " "),
-  //   };
-  // },
 
   // Get project by ID
   async getProjectById(id: string): Promise<Project> {
@@ -98,9 +70,9 @@ export const projectService = {
       progress: 0,
       icon: "📊",
       iconBgColor: "bg-purple-500",
-      teamMembers: 0,
+      team: project.team,
       taskCount: 0,
-      date: new Date(project.createdAt)
+      createdAt: new Date(project.createdAt)
         .toLocaleDateString("en-US", {
           year: "2-digit",
           month: "short",
@@ -110,32 +82,7 @@ export const projectService = {
     };
   },
 
-  // Update project
-  // async updateProject(id: string, updates: Partial<Project>): Promise<Project> {
-  //   const response = await api.patch<{ status: string; data: BackendProject }>(
-  //     `/api/v1/projects/${id}`,
-  //     updates,
-  //   );
-  //   const project = response.data.data;
-  //   return {
-  //     _id: project._id,
-  //     name: project.name,
-  //     description: project.description,
-  //     status: mapStatus(project.status),
-  //     progress: updates.progress || 0,
-  //     icon: updates.icon || "📊",
-  //     iconBgColor: updates.iconBgColor || "bg-purple-500",
-  //     teamMembers: updates.teamMembers || 0,
-  //     taskCount: updates.taskCount || 0,
-  //     date: new Date(project.createdAt)
-  //       .toLocaleDateString("en-US", {
-  //         year: "2-digit",
-  //         month: "short",
-  //         day: "numeric",
-  //       })
-  //       .replace(/\//g, " "),
-  //   };
-  // },
+
 
 }
 

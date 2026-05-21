@@ -13,7 +13,6 @@ export interface Project {
   team: string[];
   taskCount: number;
   createdAt: string;
-  updatedAt: string;
 }
 
 // Updated

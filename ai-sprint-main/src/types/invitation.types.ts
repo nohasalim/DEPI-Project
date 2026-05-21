@@ -5,5 +5,6 @@ export interface InviteResponse {
 }
 
 export interface FormInvitationDetails {
+  name: string;
   email: string;
 }

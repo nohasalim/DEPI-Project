@@ -17,12 +17,22 @@ import ModalFooter from "../modal/ModalFooter";
 import { IoPersonAddOutline } from "react-icons/io5";
 
 const invitationSchema = z.object({
+  name: z.string().min(2).max(100),
   email: z.string().email("Invalid email address"),
 });
 
 type InvitationFormData = z.infer<typeof invitationSchema>;
+interface InvitationModalProps {
+  projectId: string;
+  data?: {
+    name: string;
+    email: string;
+  };
+}
 
-const InvitationModal = () => {
+const InvitationModal: React.FC<InvitationModalProps> = ({
+  projectId,
+}) => {
   const {
     register,
     handleSubmit,
@@ -41,7 +51,12 @@ const InvitationModal = () => {
   } = useAppSelector((state) => state.invite);
 
   const onSubmit = async (data: InvitationFormData) => {
-    await dispatch(inviteTeamMember(data));
+    await dispatch(
+      inviteTeamMember({
+        projectId,
+        inviteData: data,
+      })
+    );
   };
 
   const handleClose = () => {
@@ -106,11 +121,20 @@ const InvitationModal = () => {
               error={errors.email}
               placeholder="e.g., you@company.com"
             />
+            <FormInput
+              label="Name"
+              type="text"
+              name="name"
+              register={register}
+              error={errors.name}
+              placeholder="e.g., John Doe"
+            />
+
             <ModalFooter
               label="Send Invitation"
               disabled={isInviting}
-              onClick={() => dispatch(closeModal())}
-            />
+              onConfirm={handleSubmit(onSubmit)}
+              onCancel={handleClose} />
           </Form>
         )}
       </div>

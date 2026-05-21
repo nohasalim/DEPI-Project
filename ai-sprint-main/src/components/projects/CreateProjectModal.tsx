@@ -117,8 +117,8 @@ export default function CreateProjectModal() {
             <ModalFooter
               label="✨ Generate AI Tasks"
               disabled={isGenerating}
-              onClick={() => dispatch(closeModal())}
-            />
+              onCancel={handleClose}
+              onConfirm={handleSubmit(onSubmit)} />
           </Form>
         )}
       </div>

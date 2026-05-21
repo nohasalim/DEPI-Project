@@ -1,27 +1,25 @@
 
 import React from "react";
-import type { Task } from "../../types/task.types";
-
+import type { TaskDetails } from "../../types/task.types";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { openModal } from "../../features/modal/modalSlice";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineDateRange } from "react-icons/md";
 interface TaskCardProps {
-    task: Task;
-    animatedTaskId: number | null;
-    getInitials: (name: string) => string;
-    onEdit: (task: Task) => void;
-    onDelete: (taskId: number) => void;
+    mainProjectId: string;
+    task: TaskDetails;
+
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({
+    mainProjectId,
     task,
-    animatedTaskId,
-    onEdit,
-    onDelete,
 }) => {
+    const dispatch = useAppDispatch();
     return (
         <article
-            className={`rounded-lg border p-3 border-slate-200 bg-white transition-all duration-500 ${animatedTaskId === task._id
-                ? "scale-105 ring-2 ring-violet-400 shadow-lg"
-                : ""
-                }`}
+            className={`rounded-lg border p-3 border-slate-200 bg-white transition-all duration-500 hover:shadow-md cursor-pointer`}
         >
             <h4
                 className={"text-sm font-semibold text-slate-800"}
@@ -31,43 +29,62 @@ const TaskCard: React.FC<TaskCardProps> = ({
 
             <p
                 className={
-                    "mt-2 text-xs text-slate-500"
+                    "mt-2 mb-2 text-xs text-slate-500"
                 }
             >
                 {task.description || "No description"}
             </p>
+            {/* Footer */}
+            <div className="flex items-center justify-between  pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between text-xs text-gray-600">
+                    <div className="flex items-center gap-4">
 
-            {/* <div className="mt-2 flex items-center gap-2">
-                <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-[10px] font-semibold text-white">
-                    {getInitials(task?.assignedTo)}
-                </span>
-
-                <p
-                    className={
-                        "text-xs text-slate-600"
-                    }
-                >
-                    {task?.assignedTo}
-                </p>
-            </div> */}
-
-            <div className="mt-3 flex items-center gap-2">
-                <button
-                    onClick={() => onEdit(task)}
-                    className={`rounded px-2 py-1 text-xs font-medium 
-                       border border-slate-300 text-slate-700 hover:bg-slate-100
-                      `}
-                >
-                    Edit
-                </button>
-
-                <button
-                    onClick={() => onDelete(task._id)}
-                    className="rounded border border-rose-300 px-2 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50"
-                >
-                    Delete
-                </button>
+                        <div className="flex items-center gap-1">
+                            <MdOutlineDateRange />
+                            <span>{task.createdAt}</span>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            <button
+                                className="cursor-pointer"
+                                onClick={() => {
+                                    dispatch(
+                                        openModal({
+                                            name: "deleteTask",
+                                            data: {
+                                                taskId: task._id,
+                                                taskTitle: task.title,
+                                                projectId: mainProjectId,
+                                            },
+                                        })
+                                    );
+                                }
+                                }>
+                                <RiDeleteBin6Line className="text-black" />                </button>
+                            <button
+                                className="cursor-pointer"
+                                onClick={() =>
+                                    dispatch(
+                                        openModal({
+                                            name: "editTask",
+                                            data: {
+                                                projectId: mainProjectId,
+                                                _id: task._id,
+                                                title: task.title,
+                                                description: task.description,
+                                                priority: task.priority,
+                                                status: task.status,
+                                                phase: task.phase,
+                                            },
+                                        }),
+                                    )
+                                }>
+                                <FaRegEdit />
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </article>
     );
 };

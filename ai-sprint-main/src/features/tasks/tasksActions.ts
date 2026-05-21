@@ -25,8 +25,8 @@ export const addingTask = createAsyncThunk(
       const axiosErr = error as AxiosErrorLike;
       const messageFromResponse =
         axiosErr.response &&
-        axiosErr.response.data &&
-        typeof axiosErr.response.data.message === "string"
+          axiosErr.response.data &&
+          typeof axiosErr.response.data.message === "string"
           ? axiosErr.response.data.message
           : undefined;
       const message =
@@ -51,12 +51,6 @@ export const editingTask = createAsyncThunk(
         taskData,
       );
 
-      // const { status, data, message } = await taskService.editingTask(
-      //   projectId,
-      //   taskId,
-      //   taskData,
-      // );
-
       if (status !== "success") {
         // Check console log Here
         console.log(status);
@@ -70,13 +64,78 @@ export const editingTask = createAsyncThunk(
       const axiosErr = error as AxiosErrorLike;
       const messageFromResponse =
         axiosErr.response &&
-        axiosErr.response.data &&
-        typeof axiosErr.response.data.message === "string"
+          axiosErr.response.data &&
+          typeof axiosErr.response.data.message === "string"
           ? axiosErr.response.data.message
           : undefined;
       const message =
         messageFromResponse ?? (error instanceof Error ? error.message : undefined) ??
         "Something went wrong while editing task";
+      return rejectWithValue(message);
+    }
+  },
+);
+
+
+export const deletingTask = createAsyncThunk(
+  "project/deletingTask",
+  async (
+    {
+      projectId,
+      taskId,
+    }: { projectId: string; taskId: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      if (!projectId) {
+        return rejectWithValue("Project ID is not correct");
+      }
+
+      if (!taskId) {
+        return rejectWithValue("Task ID is not correct");
+      }
+
+      const { status, message } =
+        await taskService.deletingTask(taskId);
+
+      if (status !== "success") {
+        console.log(status);
+
+        return rejectWithValue(
+          message || "Deleting task is failed",
+        );
+      }
+
+      // return deleted task id
+      return taskId;
+
+    } catch (error: unknown) {
+      console.log(error);
+
+      type AxiosErrorLike = {
+        response?: {
+          data?: {
+            message?: unknown;
+          };
+        };
+      };
+
+      const axiosErr = error as AxiosErrorLike;
+
+      const messageFromResponse =
+        axiosErr.response &&
+          axiosErr.response.data &&
+          typeof axiosErr.response.data.message === "string"
+          ? axiosErr.response.data.message
+          : undefined;
+
+      const message =
+        messageFromResponse ??
+        (error instanceof Error
+          ? error.message
+          : undefined) ??
+        "Something went wrong while deleting task";
+
       return rejectWithValue(message);
     }
   },

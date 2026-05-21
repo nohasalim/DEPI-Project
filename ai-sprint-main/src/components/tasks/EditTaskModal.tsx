@@ -37,7 +37,7 @@ export default function EditTaskModal({ taskDetails }: EditTaskModalProps) {
       description: taskDetails.description,
       priority: taskDetails.priority,
       phase: taskDetails.phase,
-      state: taskDetails.state,
+      status: taskDetails.status,
     },
   });
 
@@ -137,17 +137,17 @@ export default function EditTaskModal({ taskDetails }: EditTaskModalProps) {
               placeholder="Select priority"
             />
             <FormSelect
-              label="State"
-              name="state"
+              label="Status"
+              name="status"
               register={register}
-              error={errors.state}
+              error={errors.status}
               options={[
-                { label: "Backlog", value: "backlog" },
-                { label: "In Progress", value: "in_progress" },
-                { label: "Review", value: "review" },
-                { label: "Completed", value: "completed" },
+                { label: "Backlog", value: "Backlog" },
+                { label: "In Progress", value: "In Progress" },
+                { label: "Review", value: "Review" },
+                { label: "Completed", value: "Completed" },
               ]}
-              placeholder="Select state"
+              placeholder="Select status"
             />
             <FormSelect
               label="Phase"
@@ -155,10 +155,10 @@ export default function EditTaskModal({ taskDetails }: EditTaskModalProps) {
               register={register}
               error={errors.phase}
               options={[
-                { label: "Planning", value: "planning" },
-                { label: "Designs", value: "design" },
-                { label: "Development", value: "development" },
-                { label: "Testing", value: "testing" },
+                { label: "Planning", value: "Planning" },
+                { label: "Designs", value: "Designs" },
+                { label: "Development", value: "Development" },
+                { label: "Testing", value: "Testing" },
               ]}
               placeholder="Select phase"
             />
@@ -167,7 +167,8 @@ export default function EditTaskModal({ taskDetails }: EditTaskModalProps) {
               label="Edit Task"
               icon={<FaRegEdit />}
               disabled={isEditing}
-              onClick={handleClose}
+              onConfirm={handleSubmit(onSubmit)}
+              onCancel={handleClose}
             />
           </Form>
         )}

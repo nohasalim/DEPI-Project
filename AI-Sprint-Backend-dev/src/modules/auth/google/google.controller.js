@@ -1,15 +1,6 @@
 const generateToken = require("../../../utils/generateToken");
 const httpStatusText = require("../../../utils/httpStatusText");
 
-// module.exports = (req, res) => {
-//     const token = generateToken(req.user);
-
-//     res.json({
-//         status: httpStatusText.SUCCESS,
-//         data: req.user,
-//         token,
-//     });
-// };
 module.exports = (req, res) => {
     const token = generateToken(req.user);
 

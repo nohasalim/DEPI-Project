@@ -5,10 +5,10 @@ export const taskSchema = z.object({
   priority: z.enum(["high", "medium", "low"], {
     message: "Priority is High or Medium or Low",
   }),
-  state: z.enum(["backlog", "in_progress", "review", "completed"], {
-    message: "State is Backlog or In Progress or Review or Completed",
+  status: z.enum(["Backlog", "In Progress", "Review", "Completed"], {
+    message: "Status is Backlog or In Progress or Review or Completed",
   }),
-  phase: z.enum(["planning", "design", "development", "testing"], {
+  phase: z.enum(["Planning", "Design", "Development", "Testing"], {
     message: "Phase is Planning or Design or Development or Testing",
   }),
 });

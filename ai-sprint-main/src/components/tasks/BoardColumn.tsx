@@ -1,30 +1,25 @@
 
 import React from "react";
 import TaskCard from "./TaskCard";
-import type { Task, TaskStatus } from "../../types/task.types";
+import type { TaskDetails, TaskStatus } from "../../types/task.types";
 
 interface BoardColumnProps {
     title: TaskStatus;
     accent: string;
-    tasks: Task[];
-    animatedTaskId: number | null;
-    getInitials: (name: string) => string;
-    onEdit: (task: Task) => void;
-    onDelete: (taskId: number) => void;
+    tasks: TaskDetails[];
+    mainProjectId: string;
+
 }
 
 const BoardColumn: React.FC<BoardColumnProps> = ({
     title,
     accent,
     tasks,
-    animatedTaskId,
-    getInitials,
-    onEdit,
-    onDelete,
+    mainProjectId,
 }) => {
     return (
         <div
-            className={`rounded-xl p-3 bg-slate-50`}
+            className={`rounded-xl p-3 bg-slate-50 `}
         >
             <div
                 className={`mb-3 border-b pb-2 border-slate-200`}
@@ -70,10 +65,7 @@ const BoardColumn: React.FC<BoardColumnProps> = ({
                         <TaskCard
                             key={task._id}
                             task={task}
-                            animatedTaskId={animatedTaskId}
-                            getInitials={getInitials}
-                            onEdit={onEdit}
-                            onDelete={onDelete}
+                            mainProjectId={mainProjectId}
                         />
                     ))}
                 </div>

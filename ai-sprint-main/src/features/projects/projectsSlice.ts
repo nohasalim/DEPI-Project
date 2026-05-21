@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { generateProject, editProject, fetchProjects, deleteProject } from "./projectsActions";
 import type { Project, ProjectDetails } from "../../types/project.types";
-
+import { inviteTeamMember } from "../invitation/invitationActions";
 interface ProjectsState {
   projects: Project[];
   projectData: ProjectDetails | null;
@@ -126,7 +126,12 @@ const projectsSlice = createSlice({
       .addCase(deleteProject.rejected, (state, action) => {
         state.isDeleting = false;
         state.deleteErrorMsg = action.payload as string;
-      });
+      })
+      .addCase(inviteTeamMember.fulfilled, (state, action) => {
+        if (state.projectData) {
+          state.projectData.team.push(action.payload);
+        }
+      })
   },
 });
 

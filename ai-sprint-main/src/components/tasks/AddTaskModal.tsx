@@ -41,9 +41,15 @@ export default function AddTaskModal({ projectData }: AddTaskModalProps) {
   } = useAppSelector((state) => state.task);
 
   const onSubmit = async (data: TaskFormData) => {
-    await dispatch(
-      addingTask({ projectId: projectData.projectId, taskData: data }),
-    );
+    try {
+      await dispatch(
+        addingTask({ projectId: projectData.projectId, taskData: data }),
+
+      ).unwrap();
+
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
   };
 
   const handleClose = () => {
@@ -125,17 +131,17 @@ export default function AddTaskModal({ projectData }: AddTaskModalProps) {
               placeholder="Select priority"
             />
             <FormSelect
-              label="State"
-              name="state"
+              label="Status"
+              name="status"
               register={register}
-              error={errors.state}
+              error={errors.status}
               options={[
-                { label: "Backlog", value: "backlog" },
-                { label: "In Progress", value: "in_progress" },
-                { label: "Review", value: "review" },
-                { label: "Completed", value: "completed" },
+                { label: "Backlog", value: "Backlog" },
+                { label: "In Progress", value: "In Progress" },
+                { label: "Review", value: "Review" },
+                { label: "Completed", value: "Completed" },
               ]}
-              placeholder="Select state"
+              placeholder="Select status"
             />
             <FormSelect
               label="Phase"
@@ -143,10 +149,10 @@ export default function AddTaskModal({ projectData }: AddTaskModalProps) {
               register={register}
               error={errors.phase}
               options={[
-                { label: "Planning", value: "planning" },
-                { label: "Designs", value: "design" },
-                { label: "Development", value: "development" },
-                { label: "Testing", value: "testing" },
+                { label: "Planning", value: "Planning" },
+                { label: "Design", value: "Design" },
+                { label: "Development", value: "Development" },
+                { label: "Testing", value: "Testing" },
               ]}
               placeholder="Select phase"
             />

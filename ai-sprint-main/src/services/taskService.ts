@@ -21,14 +21,10 @@ export const editingTask = async (
   return response.data;
 };
 
-// export const editingTask = async (
-//   projectId: string,
-//   taskId: string,
-//   taskData: FormTaskDetails,
-// ): Promise<EditingTaskResponse> => {
-//   const response = await api.patch(
-//     `/tasks/${taskId}`,
-//     taskData,
-//   );
-//   return response.data;
-// };
+export const deletingTask = async (taskId: string) => {
+  const response = await api.delete(
+    `/api/v1/tasks/${taskId}`
+  );
+
+  return response.data;
+};

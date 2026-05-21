@@ -6,23 +6,21 @@ import { useDispatch } from "react-redux";
 
 interface TasksToolbarProps {
     searchTerm: string;
-    projectId?: string;
-    projectName?: string;
+    projectId: string;
+    projectName: string;
     setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
     statusFilter: "All" | TaskStatus;
     setStatusFilter: React.Dispatch<
         React.SetStateAction<"All" | TaskStatus>
     >;
-    setIsAddingTask: React.Dispatch<
-        React.SetStateAction<boolean>
-    >;
+
 }
 
 const boardColumns: TaskStatus[] = [
     "Backlog",
     "In Progress",
     "Review",
-    "Done",
+    "Completed",
 ];
 
 const TasksToolbar: React.FC<TasksToolbarProps> = ({
@@ -81,8 +79,19 @@ const TasksToolbar: React.FC<TasksToolbarProps> = ({
 
                 <button
 
-                    onClick={() => dispatch(openModal({ name: "addTask", data: { projectId, projectName } }))}
+                    onClick={() => {
+                        if (!projectId || !projectName) return;
 
+                        dispatch(
+                            openModal({
+                                name: "addTask",
+                                data: {
+                                    projectId,
+                                    projectName,
+                                },
+                            })
+                        );
+                    }}
                     className="rounded-xl bg-linear-to-r from-violet-500 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 cursor-pointer"
                 >
                     + New Task

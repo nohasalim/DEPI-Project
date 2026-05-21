@@ -1,10 +1,13 @@
-// src/components/tasks/ProjectOverview.tsx
 
 import React from "react";
+import { openModal } from "../../features/modal/modalSlice";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 interface MainProject {
+    _id: string;
     name: string;
     description: string;
+    team: string[];
 }
 
 interface Progress {
@@ -15,24 +18,29 @@ interface Progress {
 
 interface ProjectOverviewProps {
     mainProject: MainProject;
-    members: string[];
     progress: Progress;
     getInitials: (name: string) => string;
 }
 
 const ProjectOverview: React.FC<ProjectOverviewProps> = ({
     mainProject,
-    members,
     progress,
     getInitials,
 }) => {
+    const dispatch = useAppDispatch();
+
     const handleInviteMember = () => {
-        window.prompt("Enter teammate name");
+        dispatch(
+            openModal({
+                name: "inviteTeamMember",
+                data: {
+                    projectId: mainProject._id,
+                },
+            })
+        );
     };
 
-    const handleEditMainProject = () => {
-        window.prompt("Edit project");
-    };
+
 
     return (
         <section
@@ -94,7 +102,7 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({
 
                     {/* Members */}
                     <div className="flex -space-x-2">
-                        {members.map((member, index) => (
+                        {mainProject.team?.map((member, index) => (
                             <span
                                 key={`${member}-${index}`}
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-violet-500 text-[11px] font-semibold text-white"
@@ -108,21 +116,13 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({
                     {/* Invite Button */}
                     <button
                         onClick={handleInviteMember}
-                        className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors
-                           border border-slate-200 text-slate-700 hover:bg-slate-100`}
+                        className="rounded-lg px-3 py-2 text-xs font-semibold transition-colors
+                        border border-slate-200 text-slate-700 hover:bg-slate-100"
                     >
+
                         Invite
                     </button>
 
-                    {/* Settings Button */}
-                    <button
-                        onClick={handleEditMainProject}
-                        className={`rounded-lg px-3 py-2 text-xs font-semibold transition-colors 
-                            border border-slate-200 text-slate-700 hover:bg-slate-100`}
-                        title="Edit Main Project"
-                    >
-                        ⚙
-                    </button>
                 </div>
             </div>
 
@@ -149,7 +149,7 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({
                     {progress.total - progress.completed} remaining
                 </p>
             </div>
-        </section>
+        </section >
     );
 };
 

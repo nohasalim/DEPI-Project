@@ -9,7 +9,7 @@ const generateRandomPassword = require("../../utils/generateRandomPassword");
 
 const InviteMember = async (req, res) => {
     const userId = req.user.id;
-    const { email } = req.body;
+    const { name, email } = req.body;
 
     try {
         if (!email) {
@@ -31,6 +31,7 @@ const InviteMember = async (req, res) => {
             const hashedPassword = await hash(plainPassword);
 
             user = await User.create({
+                name,
                 email,
                 password: hashedPassword,
                 createdBy: userId,
@@ -80,7 +81,9 @@ const InviteMember = async (req, res) => {
             status: httpStatusText.SUCCESS,
             message: "Member added to your team successfully",
             data: {
-                userId: user._id
+                _id: user._id,
+                name: user.name,
+                email: user.email
             }
         });
 

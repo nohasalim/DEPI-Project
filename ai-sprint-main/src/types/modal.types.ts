@@ -5,13 +5,14 @@ export type ModalDataMap = {
   generateProject: undefined;
   addTask: { projectId: string; projectName: string };
   editTask: TaskDetails;
+  deleteTask: { taskId: string; taskTitle: string; projectId: string };
   editProject: ProjectDetails;
   deleteProject: {
     _id: string;
     name: string;
   };
 
-  inviteTeamMember: undefined;
+  inviteTeamMember: { projectId: string };
 };
 
 export type OpenModalPayload = {

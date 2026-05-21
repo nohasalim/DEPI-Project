@@ -14,12 +14,14 @@ passport.use(
         async (_, __, profile, done) => {
 
             try {
-                let user = await User.findOne({ providerId: profile.id });
+                const email = profile.emails?.[0]?.value;
+
+                let user = await User.findOne({ email });
 
                 if (!user) {
                     user = await User.create({
                         name: profile.displayName,
-                        email: profile.emails?.[0]?.value,
+                        email,
                         provider: "google",
                         providerId: profile.id,
                         avatar: profile.photos?.[0]?.value,
@@ -42,11 +44,14 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                let user = await User.findOne({ providerId: profile.id });
+                const email = profile.emails?.[0]?.value;
+
+                let user = await User.findOne({ email });
 
                 if (!user) {
                     user = await User.create({
                         name: profile.username,
+                        email,
                         provider: "github",
                         providerId: profile.id,
                         avatar: profile.photos?.[0]?.value,

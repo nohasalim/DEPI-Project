@@ -85,8 +85,8 @@ router.patch(
 
 
 //#region Team Router
-router.post('/teams/invite', TeamController.InviteMember)
-router.get('/teams', TeamController.TeamMembers)
+router.post('/teamMembers/:projectId/invite', TeamController.InviteMember)
+router.get('/teamMembers/:projectId', TeamController.TeamMembers)
 //#endregion
 
 // Export router to use in main server file

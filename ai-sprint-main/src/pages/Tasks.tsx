@@ -9,7 +9,7 @@ import BoardColumn from "../components/tasks/BoardColumn";
 import TasksToolbar from "../components/tasks/TasksToolbar";
 import ProjectOverview from "../components/tasks/ProjectOverview";
 
-import type { TaskStatus } from "../types/task.types";
+import type { TaskStatus, TaskDetails } from "../types/task.types";
 import { setTasks } from "../features/tasks/tasksSlice";
 import type { Project } from "../types/project.types";
 const boardColumns: Array<{ title: TaskStatus; accent: string }> = [
@@ -86,26 +86,26 @@ const Tasks: React.FC = () => {
         });
     }, [tasks, searchTerm, statusFilter]);
 
-    // // =========================
-    // // Tasks By Column
-    // // =========================
-    // const tasksByColumn = useMemo(() => {
-    //     return boardColumns.reduce<Record<TaskStatus, TaskDetails[]>>(
-    //         (acc, column) => {
-    //             acc[column.title] = visibleTasks?.filter(
-    //                 (task) => task.status === column.title,
-    //             );
+    // =========================
+    // Tasks By Column
+    // =========================
+    const tasksByColumn = useMemo(() => {
+        return boardColumns.reduce<Record<TaskStatus, TaskDetails[]>>(
+            (acc, column) => {
+                acc[column.title] = visibleTasks?.filter(
+                    (task) => task.status === column.title,
+                );
 
-    //             return acc;
-    //         },
-    //         {
-    //             Backlog: [],
-    //             "In Progress": [],
-    //             Review: [],
-    //             Completed: [],
-    //         },
-    //     );
-    // }, [visibleTasks]);
+                return acc;
+            },
+            {
+                Backlog: [],
+                "In Progress": [],
+                Review: [],
+                Completed: [],
+            },
+        );
+    }, [visibleTasks]);
 
     // =========================
     // Project Progress
@@ -185,9 +185,7 @@ const Tasks: React.FC = () => {
                     {mainProject && (
                         <>
                             {boardColumns?.map((column) => {
-                                const columnTasks = tasks?.filter(
-                                    (task) => task.status === column.title
-                                );
+                                const columnTasks = tasksByColumn[column.title];
                                 return (
                                     <BoardColumn
                                         key={column.title}

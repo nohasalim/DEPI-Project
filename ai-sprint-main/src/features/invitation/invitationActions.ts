@@ -2,7 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as invitationService from "../../services/invitationService";
 import type { FormInvitationDetails } from "../../types/invitation.types";
-
+import type { TeamMember } from "../../types/invitation.types";
 export const inviteTeamMember = createAsyncThunk(
   "invite/inviteTeamMember",
   async (
@@ -51,22 +51,24 @@ export const inviteTeamMember = createAsyncThunk(
   }
 );
 
-export const getTeamMembers = createAsyncThunk(
+export const getTeamMembers = createAsyncThunk<
+  TeamMember[],
+  string,
+  { rejectValue: string }
+>(
   "team/getTeamMembers",
-  async (projectId: string, { rejectWithValue }) => {
+  async (projectId, { rejectWithValue }) => {
     try {
       const response = await invitationService.getTeamMembers(projectId);
 
-      console.log("Team response:", response);
-
-      const members = response?.data?.members;
+      const members = response?.members;
 
       if (!members) {
         return rejectWithValue("No team members found");
       }
 
       return members;
-    } catch (error) {
+    } catch {
       return rejectWithValue("Failed to load team members");
     }
   }

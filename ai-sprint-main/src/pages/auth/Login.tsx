@@ -33,14 +33,6 @@ const Login: React.FC = () => {
   const { isLoading, error } = useAppSelector((state) => state.auth);
 
 
-
-  // Redirect if already logged in
-  // useEffect(() => {
-  //   if (user && token) {
-  //     navigate("/dashboard", { replace: true });
-  //   }
-  // }, [user, token, navigate]);
-
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const oauthToken = params.get("token");

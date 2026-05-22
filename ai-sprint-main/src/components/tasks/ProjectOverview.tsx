@@ -4,6 +4,7 @@ import { openModal } from "../../features/modal/modalSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { getTeamMembers } from "../../services/invitationService";
 
+
 interface MainProject {
     _id: string;
     name: string;
@@ -103,7 +104,7 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({
                 </div>
 
                 {/* Right Side */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between flex-wrap w-full  rounded-xl px-4 py-2 gap-4">
 
                     {/* Progress */}
                     <div className="mr-2 text-right">
@@ -126,28 +127,28 @@ const ProjectOverview: React.FC<ProjectOverviewProps> = ({
                         </p>
                     </div>
 
-                    {/* Members */}
-                    <div className="flex -space-x-2">
-                        {members.map((member, index) => (
-                            <span
-                                key={`${member}-${index}`}
-                                className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-violet-500 text-[11px] font-semibold text-white"
-                                title={member.name || member.email}
-                            >
-                                {getInitials(member.name || member.email)}
-                            </span>
-                        ))}
-                    </div>
+                    <div className="flex items-center flex-wrap gap-4"> {/* Members */}
+                        <div className="flex -space-x-2">
+                            {members.map((member, index) => (
+                                <span
+                                    key={`${member}-${index}`}
+                                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-violet-500 text-[11px] font-semibold text-white"
+                                    title={member.name || member.email}
+                                >
+                                    {getInitials(member.name || member.email)}
+                                </span>
+                            ))}
+                        </div>
 
-                    {/* Invite Button */}
-                    <button
-                        onClick={handleInviteMember}
-                        className="rounded-xl bg-linear-to-r from-violet-500 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 cursor-pointer"
+                        {/* Invite Button */}
+                        <button
+                            onClick={handleInviteMember}
+                            className="rounded-xl bg-linear-to-r from-violet-500 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-opacity hover:opacity-90 cursor-pointer"
 
-                    >
+                        >
 
-                        Invite
-                    </button>
+                            Invite
+                        </button></div>
 
                 </div>
             </div>

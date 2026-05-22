@@ -15,7 +15,12 @@ const SignIn = async (req, res) => {
                 message: "this email is not found!"
             });
         }
-
+        if (!user.password) {
+            return res.status(400).json({
+                status: httpStatusText.FAIL,
+                message: "This account uses social login"
+            });
+        }
         const matchedPassword = await compare(password, user.password);
 
         if (!matchedPassword) {

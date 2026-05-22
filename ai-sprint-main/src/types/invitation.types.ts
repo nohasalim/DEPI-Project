@@ -1,3 +1,7 @@
+export interface TeamMember {
+  _id: string;
+  email: string;
+}
 export interface InviteResponse {
   status: string;
   data: string;
